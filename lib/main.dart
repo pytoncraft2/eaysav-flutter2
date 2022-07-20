@@ -10,9 +10,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Startup Name Generator',
-      home: RandomWords(),
+    return MaterialApp(
+      title: 'EasySAV',
+      theme: ThemeData(
+        // Add the 5 lines from here...
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
+      ),
+      home: const RandomWords(),
     );
   }
 }
@@ -26,7 +33,7 @@ class _RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Startup Name Generator'),
+        title: const Text('EasySAV'),
         actions: [
           IconButton(
             icon: const Icon(Icons.list),
