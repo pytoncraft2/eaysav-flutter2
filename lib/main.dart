@@ -1,43 +1,36 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart'; // Add this line.
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Generateur de nom',
+      title: 'Startup Name Generator',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Generateur de nom'),
+          title: const Text('Startup Name Generator'),
         ),
         body: const Center(
-          child: RandomMots(),
+          child: RandomWords(),
         ),
       ),
     );
   }
 }
 
-class RandomMots extends StatefulWidget {
-  const RandomMots({Key? key}) : super(key: key);
+class _RandomWordsState extends State<RandomWords> {
+  final _suggestions = <WordPair>[];
+  final _saved = <WordPair>{};
+  final _biggerFont = const TextStyle(fontSize: 18);
 
-  @override
-  State<RandomMots> createState() => _RandomMotsState();
-}
-
-class _RandomMotsState extends State<RandomMots> {
   @override
   Widget build(BuildContext context) {
-    final _suggestions = <WordPair>[]; // NEW
-    final _saved = <WordPair>{}; // NEW
-    final _biggerFont = const TextStyle(fontSize: 18); // NEW
-
     return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
@@ -47,7 +40,9 @@ class _RandomMotsState extends State<RandomMots> {
         if (index >= _suggestions.length) {
           _suggestions.addAll(generateWordPairs().take(10));
         }
-        final alreadySaved = _saved.contains(_suggestions[index]); // NEW
+
+        final alreadySaved = _saved.contains(_suggestions[index]);
+
         return ListTile(
           title: Text(
             _suggestions[index].asPascalCase,
@@ -58,8 +53,24 @@ class _RandomMotsState extends State<RandomMots> {
             color: alreadySaved ? Colors.red : null,
             semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
           ),
+          onTap: () {
+            setState(() {
+              if (alreadySaved) {
+                _saved.remove(_suggestions[index]);
+              } else {
+                _saved.add(_suggestions[index]);
+              }
+            });
+          },
         );
       },
     );
   }
+}
+
+class RandomWords extends StatefulWidget {
+  const RandomWords({super.key});
+
+  @override
+  State<RandomWords> createState() => _RandomWordsState();
 }
