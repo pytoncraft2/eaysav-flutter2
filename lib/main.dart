@@ -1,120 +1,85 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'dart:io'; // for using HttpClient
+import 'dart:convert'; // for using json.decode()
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'EasySAV',
-      theme: ThemeData(
-        // Add the 5 lines from here...
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-        ),
-      ),
-      home: const RandomWords(),
+    return const MaterialApp(
+      // Hide the debug banner
+      debugShowCheckedModeBanner: false,
+      title: 'Kindacode.com',
+      home: HomePage(),
     );
   }
 }
 
-class _RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _saved = <WordPair>{};
-  final _biggerFont = const TextStyle(fontSize: 18);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // The list that contains information about photos
+  List _loadedPhotos = [];
+
+  // The function that fetches data from the API
+  Future<void> _fetchData() async {
+    const apiUrl = 'https://jsonplaceholder.typicode.com/photos';
+
+    HttpClient client = HttpClient();
+    client.autoUncompress = true;
+
+    final HttpClientRequest request = await client.getUrl(Uri.parse(apiUrl));
+    request.headers
+        .set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
+    final HttpClientResponse response = await request.close();
+
+    final String content = await response.transform(utf8.decoder).join();
+    final List data = json.decode(content);
+
+    setState(() {
+      _loadedPhotos = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('EasySAV'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.list),
-            onPressed: _pushSaved,
-            tooltip: 'Saved Suggestions',
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          if (i.isOdd) return const Divider();
-
-          final index = i ~/ 2;
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
-
-          final alreadySaved = _saved.contains(_suggestions[index]);
-
-          return ListTile(
-            title: Text(
-              _suggestions[index].asPascalCase,
-              style: _biggerFont,
-            ),
-            trailing: Icon(
-              alreadySaved ? Icons.favorite : Icons.favorite_border,
-              color: alreadySaved ? Colors.red : null,
-              semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
-            ),
-            onTap: () {
-              setState(() {
-                if (alreadySaved) {
-                  _saved.remove(_suggestions[index]);
-                } else {
-                  _saved.add(_suggestions[index]);
-                }
-              });
-            },
-          );
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Kindacode.com'),
+        ),
+        body: SafeArea(
+            child: _loadedPhotos.isEmpty
+                ? Center(
+                    child: ElevatedButton(
+                      onPressed: _fetchData,
+                      child: const Text('Load Photos'),
+                    ),
+                  )
+                // The ListView that displays photos
+                : ListView.builder(
+                    itemCount: _loadedPhotos.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return ListTile(
+                        leading: Image.network(
+                          _loadedPhotos[index]["thumbnailUrl"],
+                          width: 150,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(_loadedPhotos[index]['title']),
+                        subtitle:
+                            Text('Photo ID: ${_loadedPhotos[index]["id"]}'),
+                      );
+                    },
+                  )));
   }
-
-  void _pushSaved() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) {
-          final tiles = _saved.map(
-            (pair) {
-              return ListTile(
-                title: Text(
-                  pair.asPascalCase,
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-          final divided = tiles.isNotEmpty
-              ? ListTile.divideTiles(
-                  context: context,
-                  tiles: tiles,
-                ).toList()
-              : <Widget>[];
-
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Saved Suggestions'),
-            ),
-            body: ListView(children: divided),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class RandomWords extends StatefulWidget {
-  const RandomWords({super.key});
-
-  @override
-  State<RandomWords> createState() => _RandomWordsState();
 }
