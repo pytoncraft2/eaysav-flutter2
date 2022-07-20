@@ -10,7 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final motRandom = WordPair.random();
     return MaterialApp(
       title: 'Generateur de nom',
       home: Scaffold(
@@ -36,6 +35,7 @@ class _RandomMotsState extends State<RandomMots> {
   @override
   Widget build(BuildContext context) {
     final _suggestions = <WordPair>[]; // NEW
+    final _saved = <WordPair>{}; // NEW
     final _biggerFont = const TextStyle(fontSize: 18); // NEW
 
     return ListView.builder(
@@ -47,10 +47,16 @@ class _RandomMotsState extends State<RandomMots> {
         if (index >= _suggestions.length) {
           _suggestions.addAll(generateWordPairs().take(10));
         }
+        final alreadySaved = _saved.contains(_suggestions[index]); // NEW
         return ListTile(
           title: Text(
             _suggestions[index].asPascalCase,
             style: _biggerFont,
+          ),
+          trailing: Icon(
+            alreadySaved ? Icons.favorite : Icons.favorite_border,
+            color: alreadySaved ? Colors.red : null,
+            semanticLabel: alreadySaved ? 'Remove from saved' : 'Save',
           ),
         );
       },
