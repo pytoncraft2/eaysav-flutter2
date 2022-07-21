@@ -80,6 +80,11 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _loadedPhotos.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return ListTile(
+                        leading: Image.asset(
+                          'assets/images/logos/${(_loadedPhotos[index]["maSlug"])}.png',
+                          width: 45,
+                          fit: BoxFit.cover,
+                        ),
                         onTap: () {
                           debugPrint(
                               'MARQUE : ${(_loadedPhotos[index]['libelle'])}');
