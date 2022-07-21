@@ -80,6 +80,10 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _loadedPhotos.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return ListTile(
+                        onTap: () {
+                          debugPrint(
+                              'MARQUE : ${(_loadedPhotos[index]['libelle'])}');
+                        },
                         title: Text(_loadedPhotos[index]['libelle']),
                       );
                     },
