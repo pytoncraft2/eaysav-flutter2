@@ -34,7 +34,7 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset("assets/images/EASYSAV-LOGO.png"),
+            Image.asset("assets/images/img/EASYSAV-LOGO.png"),
             const SizedBox(height: 10),
             const Divider(
               color: Colors.black,
