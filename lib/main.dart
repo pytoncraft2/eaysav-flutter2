@@ -1,3 +1,4 @@
+import 'package:easysav_flutter2/equipements_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:io'; // for using HttpClient
 import 'dart:convert'; // for using json.decode()
@@ -15,21 +16,27 @@ class MyApp extends StatelessWidget {
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
       title: 'Kindacode.com',
-      home: HomePage(),
+      home: Acceuil(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class Acceuil extends StatefulWidget {
+  const Acceuil({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Acceuil> createState() => _AcceuilState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AcceuilState extends State<Acceuil> {
   // The list that contains information about photos
+  int pageCourante = 0;
   List _loadedPhotos = [];
+
+  List<Widget> pages = const [
+    Acceuil(),
+    Equipements(),
+  ];
 
   // The function that fetches data from the API
   Future<void> _fetchData() async {
@@ -56,42 +63,37 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Kindacode.com'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add_chart),
-              onPressed: () {
-                debugPrint("Icon chart test");
-              },
-            ),
-          ],
-        ),
-        body: SafeArea(
-            child: _loadedPhotos.isEmpty
-                ? Center(
-                    child: ElevatedButton(
-                      onPressed: _fetchData,
-                      child: const Text('Load Photos'),
-                    ),
-                  )
-                // The ListView that displays photos
-                : ListView.builder(
-                    itemCount: _loadedPhotos.length,
-                    itemBuilder: (BuildContext ctx, index) {
-                      return ListTile(
-                        leading: Image.asset(
-                          'assets/images/logos/${(_loadedPhotos[index]["maSlug"])}.png',
-                          width: 45,
-                          fit: BoxFit.cover,
-                        ),
-                        onTap: () {
-                          debugPrint(
-                              'MARQUE : ${(_loadedPhotos[index]['libelle'])}');
-                        },
-                        title: Text(_loadedPhotos[index]['libelle']),
-                      );
-                    },
-                  )));
+      body: pages[pageCourante],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint("FLOATING ACTION BUTTON");
+        },
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: NavigationBar(
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.home), label: 'Acceuil'),
+          NavigationDestination(icon: Icon(Icons.person), label: 'Profile')
+        ],
+        onDestinationSelected: (int index) {
+          setState(() {
+            pageCourante = index;
+          });
+        },
+        selectedIndex: pageCourante,
+      ),
+      appBar: AppBar(
+        title: const Text('Kindacode.com'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_chart),
+            onPressed: () {
+              debugPrint("Icon chart test");
+            },
+          ),
+        ],
+      ),
+      // body:
+    );
   }
 }
