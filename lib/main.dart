@@ -33,7 +33,8 @@ class _HomePageState extends State<HomePage> {
 
   // The function that fetches data from the API
   Future<void> _fetchData() async {
-    const apiUrl = 'https://jsonplaceholder.typicode.com/photos';
+    // const apiUrl = 'https://jsonplaceholder.typicode.com/photos';
+    const apiUrl = 'http://192.168.1.15:8000/api/marques';
 
     HttpClient client = HttpClient();
     client.autoUncompress = true;
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
     final List data = json.decode(content);
 
     setState(() {
+      print(data);
       _loadedPhotos = data;
     });
   }
@@ -56,6 +58,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Kindacode.com'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add_chart),
+              onPressed: () {
+                debugPrint("Icon chart test");
+              },
+            ),
+          ],
         ),
         body: SafeArea(
             child: _loadedPhotos.isEmpty
@@ -70,14 +80,7 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _loadedPhotos.length,
                     itemBuilder: (BuildContext ctx, index) {
                       return ListTile(
-                        leading: Image.network(
-                          _loadedPhotos[index]["thumbnailUrl"],
-                          width: 150,
-                          fit: BoxFit.cover,
-                        ),
-                        title: Text(_loadedPhotos[index]['title']),
-                        subtitle:
-                            Text('Photo ID: ${_loadedPhotos[index]["id"]}'),
+                        title: Text(_loadedPhotos[index]['libelle']),
                       );
                     },
                   )));
