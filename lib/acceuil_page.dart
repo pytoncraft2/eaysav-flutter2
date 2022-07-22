@@ -1,4 +1,3 @@
-import 'package:easysav_flutter2/learn_flutter_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:io'; // for using HttpClient
 import 'dart:convert'; // for using json.decode()
@@ -53,35 +52,18 @@ class _AcceuilState extends State<Acceuil> {
     final String content = await response.transform(utf8.decoder).join();
     final List data = json.decode(content);
 
-    setState(() {
-      print(data);
-      _loadedPhotos = data;
-    });
+    dispose() {
+      super.dispose();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Kindacode.com'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add_chart),
-              onPressed: () {
-                debugPrint("Icon chart test");
-              },
-            ),
-          ],
-        ),
-        body: SafeArea(
-            child: _loadedPhotos.isEmpty
-                ? Center(
-                    child: ElevatedButton(
-                      onPressed: _fetchData,
-                      child: const Text('Load Photos'),
-                    ),
-                  )
-                // The ListView that displays photos
+      body: SafeArea(
+        child: // The ListView that displays photos
+            _loadedPhotos.isEmpty
+                ? const Icon(Icons.access_alarm)
                 : ListView.builder(
                     itemCount: _loadedPhotos.length,
                     itemBuilder: (BuildContext ctx, index) {
@@ -98,6 +80,8 @@ class _AcceuilState extends State<Acceuil> {
                         title: Text(_loadedPhotos[index]['libelle']),
                       );
                     },
-                  )));
+                  ),
+      ),
+    );
   }
 }
