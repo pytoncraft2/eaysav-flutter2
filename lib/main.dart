@@ -183,16 +183,32 @@ class PhotosList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-      ),
+    // return GridView.builder(
+    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    //     crossAxisCount: 4,
+    //   ),
+    //   itemCount: photos.length,
+    //   itemBuilder: (context, index) {
+    //     return Image.asset(
+    //       'assets/images/logos/${(photos[index].maSlug)}.png',
+    //       width: 45,
+    //       fit: BoxFit.cover,
+    //     );
+    //   },
+    // );
+    return ListView.builder(
       itemCount: photos.length,
-      itemBuilder: (context, index) {
-        return Image.asset(
-          'assets/images/logos/${(photos[index].maSlug)}.png',
-          width: 45,
-          fit: BoxFit.cover,
+      itemBuilder: (BuildContext ctx, index) {
+        return ListTile(
+          leading: Image.asset(
+            'assets/images/logos/${(photos[index].maSlug)}.png',
+            width: 45,
+            fit: BoxFit.cover,
+          ),
+          onTap: () {
+            debugPrint('MARQUE : ${(photos[index].libelle)}');
+          },
+          title: Text(photos[index].libelle),
         );
       },
     );
