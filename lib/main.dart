@@ -114,14 +114,17 @@ List<Photo> parsePhotos(String responseBody) {
 
 class Photo {
   final String libelle;
+  final String maSlug;
 
   const Photo({
     required this.libelle,
+    required this.maSlug,
   });
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
       libelle: json['libelle'] as String,
+      maSlug: json['maSlug'] as String,
     );
   }
 }
@@ -182,11 +185,15 @@ class PhotosList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 4,
       ),
       itemCount: photos.length,
       itemBuilder: (context, index) {
-        return Text(photos[index].libelle);
+        return Image.asset(
+          'assets/images/logos/${(photos[index].maSlug)}.png',
+          width: 45,
+          fit: BoxFit.cover,
+        );
       },
     );
   }
