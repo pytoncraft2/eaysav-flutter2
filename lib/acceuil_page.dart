@@ -181,6 +181,7 @@ class PhotosList extends StatelessWidget {
             width: 45,
             fit: BoxFit.cover,
           ),
+          trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             debugPrint('MARQUE : ${(photos[index].libelle)}');
           },
