@@ -89,6 +89,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:easysav_flutter2/equipements_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -183,11 +184,33 @@ class PhotosList extends StatelessWidget {
           ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            debugPrint('MARQUE : ${(photos[index].libelle)}');
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Equipements()));
           },
           title: Text(photos[index].libelle),
         );
       },
+    );
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second Route'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigate back to first route when tapped.
+          },
+          child: const Text('Go back!'),
+        ),
+      ),
     );
   }
 }
