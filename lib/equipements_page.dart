@@ -47,6 +47,9 @@ class Equipements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Choisissez un equipement'),
+      ),
       body: ListView.builder(
         itemCount: _equipements.length,
         itemBuilder: (BuildContext context, int index) {
