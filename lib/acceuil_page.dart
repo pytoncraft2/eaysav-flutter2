@@ -94,6 +94,32 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+class Acceuil extends StatelessWidget {
+  const Acceuil({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<List<Photo>>(
+        future: fetchPhotos(http.Client()),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('An error has occurred!'),
+            );
+          } else if (snapshot.hasData) {
+            return PhotosList(photos: snapshot.data!);
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
 Future<List<Photo>> fetchPhotos(http.Client client) async {
   final response =
       await client.get(Uri.parse('http://192.168.1.15:8000/api/marques'));
@@ -123,32 +149,6 @@ class Photo {
     return Photo(
       libelle: json['libelle'] as String,
       maSlug: json['maSlug'] as String,
-    );
-  }
-}
-
-class Acceuil extends StatelessWidget {
-  const Acceuil({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<List<Photo>>(
-        future: fetchPhotos(http.Client()),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text('An error has occurred!'),
-            );
-          } else if (snapshot.hasData) {
-            return PhotosList(photos: snapshot.data!);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
     );
   }
 }
