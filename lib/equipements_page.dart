@@ -33,6 +33,13 @@
 import 'package:flutter/material.dart';
 
 const int itemCount = 10;
+List _equipements = [
+  "Chaudières",
+  "Bruleurs",
+  "Chauffe-bains",
+  "Clim intérieur",
+  "Clim extérieur"
+];
 
 class Equipements extends StatelessWidget {
   const Equipements({Key? key}) : super(key: key);
@@ -41,12 +48,12 @@ class Equipements extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: itemCount,
+        itemCount: _equipements.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text('Item ${(index + 1)}'),
-            leading: const Icon(Icons.access_alarm),
-            trailing: const Icon(Icons.account_circle),
+            title: Text('${(_equipements[index])}'),
+            leading: const Icon(Icons.all_out),
+            trailing: const Icon(Icons.arrow_right),
             onTap: () {
               debugPrint('Tapage sur index numero ${(index)}');
             },
