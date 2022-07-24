@@ -43,7 +43,8 @@ List _equipements = [
 ];
 
 class Equipements extends StatelessWidget {
-  const Equipements({Key? key}) : super(key: key);
+  final String marque;
+  const Equipements({Key? key, required this.marque}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,8 @@ class Equipements extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Modeles(marque: "auer"),
+                  builder: (context) =>
+                      Modeles(marque: marque, equipement: _equipements[index]),
                 ),
               );
             },

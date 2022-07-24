@@ -184,8 +184,12 @@ class PhotosList extends StatelessWidget {
           ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Equipements()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Equipements(marque: photos[index].maSlug),
+              ),
+            );
           },
           title: Text(photos[index].libelle),
         );
