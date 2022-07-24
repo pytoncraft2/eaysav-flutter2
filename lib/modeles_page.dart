@@ -15,7 +15,7 @@ class _ModelesState extends State<Modeles> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("liste modeles wtf"),
+        title: Text('${widget.equipement} ${widget.marque}'),
       ),
       body: Text('${widget.equipement} ${widget.marque}'),
     );
