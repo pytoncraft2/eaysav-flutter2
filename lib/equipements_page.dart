@@ -30,6 +30,7 @@
 //   }
 // }
 
+import 'package:easysav_flutter2/modeles_page.dart';
 import 'package:flutter/material.dart';
 
 const int itemCount = 10;
@@ -58,7 +59,12 @@ class Equipements extends StatelessWidget {
             leading: const Icon(Icons.all_out),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {
-              debugPrint('Tapage sur index numero ${(index)}');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Modeles(marque: "auer"),
+                ),
+              );
             },
           );
         },
