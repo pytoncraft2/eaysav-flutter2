@@ -39,9 +39,7 @@ import 'package:flutter/foundation.dart';
 // }
 
 class Modeles extends StatelessWidget {
-  final String marque;
-  final String equipement;
-  final String equipementSlug;
+  final String marque, equipement, equipementSlug;
   final List<String> items;
 
   const Modeles(

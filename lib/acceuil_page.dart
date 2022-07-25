@@ -137,8 +137,7 @@ List<Photo> parsePhotos(String responseBody) {
 }
 
 class Photo {
-  final String libelle;
-  final String maSlug;
+  final String libelle, maSlug;
 
   const Photo({required this.libelle, required this.maSlug});
 
