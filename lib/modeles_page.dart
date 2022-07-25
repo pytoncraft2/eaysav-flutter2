@@ -52,11 +52,11 @@ class Modeles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Long List';
+    final title = '$equipement $marque';
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(title),
+        title: Text(title),
       ),
       // body: const Text("OUI"),
       body: FutureBuilder<List<Photo>>(
@@ -80,8 +80,6 @@ class Modeles extends StatelessWidget {
 }
 
 Future<List<Photo>> fetchPhotos(http.Client client, String marque) async {
-  print("MARQUE -------------");
-  print(marque);
   final response = await client
       .get(Uri.parse('http://192.168.1.15:8000/api/chaudieres/${(marque)}'));
   // .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
