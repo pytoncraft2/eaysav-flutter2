@@ -56,12 +56,7 @@ class _RootPageState extends State<RootPage> {
       appBar: AppBar(
         title: const Text("EasySAV 🔥"),
       ),
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBar(floating: true),
-          SliverList(delegate: SliverChildListDelegate([pages[pageCourante]]))
-        ],
-      ),
+      body: pages[pageCourante],
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
