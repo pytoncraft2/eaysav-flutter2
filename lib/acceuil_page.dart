@@ -139,14 +139,18 @@ List<Photo> parsePhotos(String responseBody) {
 class Photo {
   final String libelle;
   final String maSlug;
+  Property property;
 
-  const Photo({required this.libelle, required this.maSlug});
+  const Photo(
+      {required this.libelle,
+      required this.maSlug,
+      required Property property});
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
-      libelle: json['libelle'] as String,
-      maSlug: json['maSlug'] as String,
-    );
+        libelle: json['libelle'] as String,
+        maSlug: json['maSlug'] as String,
+        property: Property.fromJson(json['property']));
   }
 }
 
@@ -196,25 +200,25 @@ class PhotosList extends StatelessWidget {
 }
 
 class Shape {
+  String shapeName;
   Property property;
 
-  Shape({required this.property});
+  Shape({required this.shapeName, required this.property});
 
   factory Shape.fromJson(Map<String, dynamic> parsedJson) {
-    return Shape(property: Property.fromJson(parsedJson['property']));
+    return Shape(
+        shapeName: parsedJson['shape_name'],
+        property: Property.fromJson(parsedJson['property']));
   }
 }
 
 class Property {
-  double chaudieres;
+  double width;
+  double breadth;
 
-  Property({
-    required this.chaudieres,
-  });
+  Property({required this.width, required this.breadth});
 
   factory Property.fromJson(Map<String, dynamic> json) {
-    return Property(
-      chaudieres: json['chaudieres'],
-    );
+    return Property(width: json['width'], breadth: json['breadth']);
   }
 }
