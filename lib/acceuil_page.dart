@@ -140,10 +140,7 @@ class Photo {
   final String libelle;
   final String maSlug;
 
-  const Photo({
-    required this.libelle,
-    required this.maSlug,
-  });
+  const Photo({required this.libelle, required this.maSlug});
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
@@ -194,6 +191,30 @@ class PhotosList extends StatelessWidget {
           title: Text(photos[index].libelle),
         );
       },
+    );
+  }
+}
+
+class Shape {
+  Property property;
+
+  Shape({required this.property});
+
+  factory Shape.fromJson(Map<String, dynamic> parsedJson) {
+    return Shape(property: Property.fromJson(parsedJson['property']));
+  }
+}
+
+class Property {
+  double chaudieres;
+
+  Property({
+    required this.chaudieres,
+  });
+
+  factory Property.fromJson(Map<String, dynamic> json) {
+    return Property(
+      chaudieres: json['chaudieres'],
     );
   }
 }
