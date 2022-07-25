@@ -58,8 +58,9 @@ class Modeles extends StatelessWidget {
       appBar: AppBar(
         title: const Text(title),
       ),
+      // body: const Text("OUI"),
       body: FutureBuilder<List<Photo>>(
-        future: fetchPhotos(http.Client()),
+        future: fetchPhotos(http.Client(), marque),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -78,9 +79,11 @@ class Modeles extends StatelessWidget {
   }
 }
 
-Future<List<Photo>> fetchPhotos(http.Client client) async {
-  final response =
-      await client.get(Uri.parse('http://192.168.1.15:8000/api/marques'));
+Future<List<Photo>> fetchPhotos(http.Client client, String marque) async {
+  print("MARQUE -------------");
+  print(marque);
+  final response = await client
+      .get(Uri.parse('http://192.168.1.15:8000/api/chaudieres/${(marque)}'));
   // .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
   // Use the compute function to run parsePhotos in a separate isolate.
@@ -96,17 +99,17 @@ List<Photo> parsePhotos(String responseBody) {
 
 class Photo {
   final String libelle;
-  final String maSlug;
+  // final String maSlug;
 
   const Photo({
     required this.libelle,
-    required this.maSlug,
+    // required this.maSlug,
   });
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
       libelle: json['libelle'] as String,
-      maSlug: json['maSlug'] as String,
+      // maSlug: json['maSlug'] as String,
     );
   }
 }
@@ -135,11 +138,6 @@ class PhotosList extends StatelessWidget {
       itemCount: photos.length,
       itemBuilder: (BuildContext ctx, index) {
         return ListTile(
-          leading: Image.asset(
-            'assets/images/logos/${(photos[index].maSlug)}.png',
-            width: 45,
-            fit: BoxFit.cover,
-          ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
             print("TAP TAP");
