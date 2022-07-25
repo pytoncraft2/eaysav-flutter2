@@ -41,12 +41,14 @@ import 'package:flutter/foundation.dart';
 class Modeles extends StatelessWidget {
   final String marque;
   final String equipement;
+  final String equipementSlug;
   final List<String> items;
 
   const Modeles(
       {Key? key,
       required this.marque,
       required this.equipement,
+      required this.equipementSlug,
       required this.items})
       : super(key: key);
 
@@ -60,7 +62,7 @@ class Modeles extends StatelessWidget {
       ),
       // body: const Text("OUI"),
       body: FutureBuilder<List<Photo>>(
-        future: fetchPhotos(http.Client(), marque),
+        future: fetchPhotos(http.Client(), marque, equipement, equipementSlug),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(
@@ -79,9 +81,14 @@ class Modeles extends StatelessWidget {
   }
 }
 
-Future<List<Photo>> fetchPhotos(http.Client client, String marque) async {
-  final response = await client
-      .get(Uri.parse('http://192.168.1.15:8000/api/chaudieres/${(marque)}'));
+Future<List<Photo>> fetchPhotos(http.Client client, String marque,
+    String equipement, String equipementSlug) async {
+  print("EQUIPEMENT--------------");
+  print(equipement);
+  print(equipementSlug);
+  final response = await client.get(
+    Uri.parse('http://192.168.1.15:8000/api/${(equipementSlug)}/${(marque)}'),
+  );
   // .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
   // Use the compute function to run parsePhotos in a separate isolate.

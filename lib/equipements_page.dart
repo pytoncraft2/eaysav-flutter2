@@ -64,9 +64,11 @@ class Equipements extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => Modeles(
-                      marque: marque,
-                      equipement: _equipements[index],
-                      items: List<String>.generate(1400, (i) => 'Item $i')),
+                    marque: marque,
+                    equipement: _equipements[index],
+                    items: List<String>.generate(1400, (i) => 'Item $i'),
+                    equipementSlug: 'chaudieres',
+                  ),
                 ),
               );
             },
