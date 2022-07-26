@@ -55,6 +55,16 @@ class _RootPageState extends State<RootPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("EasySAV 🔥"),
+        actions: [
+          IconButton(
+              onPressed: () => {
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate(),
+                    )
+                  },
+              icon: const Icon(Icons.search))
+        ],
       ),
       body: pages[pageCourante],
       drawer: Drawer(
@@ -120,4 +130,80 @@ class _RootPageState extends State<RootPage> {
   //   ),
   // );
   // }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  List<String> searchTerms = [
+    "Apple",
+    "Bannane",
+    "Champigon",
+    "Pomme",
+    "Artichaud",
+    "Navet",
+    "Nougat",
+    "Caramel"
+  ];
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    //nettoie la barre
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        //fermer et partir de la barre de recherche
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in searchTerms) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in searchTerms) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
 }
