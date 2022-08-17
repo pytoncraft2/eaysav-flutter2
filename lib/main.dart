@@ -1176,7 +1176,7 @@ class CustomSearchDelegate extends SearchDelegate {
     }
 
     return ListView.builder(
-      itemCount: matchQuery.length,
+      itemCount: searchTerms.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(
@@ -1196,6 +1196,7 @@ class CustomSearchDelegate extends SearchDelegate {
     }
 
     return ListView.builder(
+      itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(

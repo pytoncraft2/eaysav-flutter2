@@ -39,7 +39,7 @@
 //   // The function that fetches data from the API
 //   Future<void> _fetchData() async {
 //     // const apiUrl = 'https://jsonplaceholder.typicode.com/photos';
-//     const apiUrl = 'http://192.168.1.15:8000/api/marques';
+//     const apiUrl = 'http://192.168.1.28:8000/api/marques';
 
 //     HttpClient client = HttpClient();
 //     client.autoUncompress = true;
@@ -122,7 +122,7 @@ class Acceuil extends StatelessWidget {
 
 Future<List<Photo>> fetchPhotos(http.Client client) async {
   final response =
-      await client.get(Uri.parse('http://192.168.1.15:8000/api/marques'));
+      await client.get(Uri.parse('http://192.168.1.28:8000/api/marques'));
   // .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
   // Use the compute function to run parsePhotos in a separate isolate.

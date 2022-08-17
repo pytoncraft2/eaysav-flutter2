@@ -85,7 +85,7 @@ Future<List<Photo>> fetchPhotos(http.Client client, String marque,
   print(equipement);
   print(equipementSlug);
   final response = await client.get(
-    Uri.parse('http://192.168.1.15:8000/api/${(equipementSlug)}/${(marque)}'),
+    Uri.parse('http://192.168.1.28:8000/api/${(equipementSlug)}/${(marque)}'),
   );
   // .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
